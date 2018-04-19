@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	hive "github.com/3-shake/hive-go"
-	"github.com/k0kubun/pp"
 )
 
 var cli *hive.Client
@@ -31,22 +30,22 @@ func database() {
 
 func listDatabase() {
 	res, err := cli.ListDatabase()
-	pp.Println(res, err)
+	fmt.Println(res, err)
 }
 
 func showDatabase() {
 	res, err := cli.ShowDatabase("sample_hive")
-	pp.Println(res, err)
+	fmt.Println(res, err)
 }
 
 func createDatabase() {
 	res, err := cli.CreateDatabase(fmt.Sprintf("sample_hive%d", 100), &hive.CreateDatabaseInput{})
-	pp.Println(res, err)
+	fmt.Println(res, err)
 }
 
 func dropDatabase() {
 	res, err := cli.DropDatabase("sample_hive")
-	pp.Println(res, err)
+	fmt.Println(res, err)
 }
 
 func createTable() {
@@ -62,5 +61,5 @@ func createTable() {
 			{"day", "string", ""},
 		},
 	})
-	pp.Println(res, err)
+	fmt.Println(res, err)
 }
