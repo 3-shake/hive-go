@@ -79,7 +79,7 @@ type UpdateTableResponse struct {
 	Table    string `json:"table"`
 }
 
-type DeleteTableResponse struct {
+type DropTableResponse struct {
 	Database string `json:"database"`
 	Table    string `json:"table"`
 }
@@ -179,14 +179,14 @@ func (this *Client) UpdateTable(database, table string) (*UpdateTableResponse, e
 	return res, nil
 }
 
-func (this *Client) DeleteTable(database, table string) (*DeleteTableResponse, error) {
+func (this *Client) DropTable(database, table string) (*DropTableResponse, error) {
 	endpoint := fmt.Sprintf(ENDPOINT_TABLE_DETAIL, this.BaseUrl, this.Port, database, table, this.User)
 	resp, err := this.request(HTTP_DELETE, endpoint, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	res := &DeleteTableResponse{}
+	res := &DropTableResponse{}
 	if err := json.NewDecoder(resp.Body).Decode(res); err != nil {
 		return nil, err
 	}

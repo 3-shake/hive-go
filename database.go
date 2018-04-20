@@ -25,9 +25,9 @@ type ShowDatabaseResponse struct {
 }
 
 type CreateDatabaseInput struct {
-	Comment    string      `json:"comment"`
-	Location   string      `json:"location"`
-	Properties interface{} `json:"properties"`
+	Comment    string      `json:"comment,omitempty"`
+	Location   string      `json:"location,omitempty"`
+	Properties interface{} `json:"properties,omitempty"`
 }
 
 type CreateDatabaseResponse struct {
