@@ -1,6 +1,7 @@
 package hive
 
 import (
+	"errors"
 	"io"
 	"log"
 	"net/http"
@@ -42,5 +43,10 @@ func (this *Client) request(method, endpoint string, body io.Reader) (*http.Resp
 		log.Println(err)
 		return nil, err
 	}
+
+	if 400 < resp.StatusCode {
+		return nil, errors.New(resp.Status)
+	}
+
 	return resp, nil
 }
