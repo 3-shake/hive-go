@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 )
 
@@ -47,13 +46,7 @@ func (this *Client) ListDatabase() (*ListDatabaseResponse, error) {
 	}
 
 	res := &ListDatabaseResponse{}
-	b, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Println(err)
-		return nil, err
-	}
-
-	if err := json.Unmarshal(b, res); err != nil {
+	if err := json.NewDecoder(resp.Body).Decode(res); err != nil {
 		log.Println(err)
 		return nil, err
 	}
@@ -92,13 +85,6 @@ func (this *Client) CreateDatabase(database string, in *CreateDatabaseInput) (*C
 		return nil, err
 	}
 
-	// b, err := ioutil.ReadAll(resp.Body)
-	// pp.Println(string(b))
-	// if err != nil {
-	// log.Println(err)
-	// return nil, err
-	// }
-
 	return res, nil
 }
 
@@ -110,13 +96,7 @@ func (this *Client) DropDatabase(database string) (*DropDatabaseResponse, error)
 	}
 
 	res := &DropDatabaseResponse{}
-	b, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Println(err)
-		return nil, err
-	}
-
-	if err := json.Unmarshal(b, res); err != nil {
+	if err := json.NewDecoder(resp.Body).Decode(res); err != nil {
 		log.Println(err)
 		return nil, err
 	}
