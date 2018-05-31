@@ -50,3 +50,21 @@ func (this *Client) request(method, endpoint string, body io.Reader) (*http.Resp
 
 	return resp, nil
 }
+
+func (this *Client) requestWithoutJSON(method, endpoint string, body io.Reader) (*http.Response, error) {
+	req, err := http.NewRequest(method, endpoint, body)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	if 400 < resp.StatusCode {
+		return nil, errors.New(resp.Status)
+	}
+	return resp, nil
+}
