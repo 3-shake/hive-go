@@ -3,6 +3,7 @@ package hive
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 )
 
 var (
@@ -17,7 +18,10 @@ type ExecResponse struct {
 
 func (this *Client) Exec(sql string) (*ExecResponse, error) {
 	endpoint := fmt.Sprintf(ENDPOINT_EXEC, this.BaseUrl, this.Port, this.User)
-	resp, err := this.request(HTTP_GET, endpoint, nil)
+
+	body := strings.NewReader(fmt.Sprintf("exec=%s", sql))
+
+	resp, err := this.requestWithoutJSON(HTTP_POST, endpoint, body)
 	if err != nil {
 		return nil, err
 	}
