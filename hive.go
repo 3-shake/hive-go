@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"time"
 )
 
 var (
@@ -18,7 +19,7 @@ type Client struct {
 	BaseUrl string
 	Port    string
 	User    string
-	Timeout int
+	Timeout time.Duration
 }
 
 func New(baseurl, port, user string) *Client {
@@ -26,7 +27,7 @@ func New(baseurl, port, user string) *Client {
 		BaseUrl: baseurl,
 		Port:    port,
 		User:    user,
-		Timeout: 100000,
+		Timeout: 20 * time.Second,
 	}
 	return svc
 }
@@ -38,7 +39,8 @@ func (this *Client) request(method, endpoint string, body io.Reader) (*http.Resp
 		return nil, err
 	}
 	req.Header.Add("Content-Type", "application/json")
-	resp, err := http.DefaultClient.Do(req)
+	cli := http.Client{Timeout: this.Timeout}
+	resp, err := cli.Do(req)
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -57,7 +59,8 @@ func (this *Client) requestWithoutJSON(method, endpoint string, body io.Reader) 
 		log.Println(err)
 		return nil, err
 	}
-	resp, err := http.DefaultClient.Do(req)
+	cli := http.Client{Timeout: this.Timeout}
+	resp, err := cli.Do(req)
 	if err != nil {
 		log.Println(err)
 		return nil, err

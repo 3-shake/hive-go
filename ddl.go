@@ -18,9 +18,7 @@ type ExecResponse struct {
 
 func (this *Client) Exec(sql string) (*ExecResponse, error) {
 	endpoint := fmt.Sprintf(ENDPOINT_EXEC, this.BaseUrl, this.Port, this.User)
-
 	body := strings.NewReader(fmt.Sprintf("exec=%s", sql))
-
 	resp, err := this.requestWithoutJSON(HTTP_POST, endpoint, body)
 	if err != nil {
 		return nil, err
