@@ -27,7 +27,7 @@ func New(baseurl, port, user string) *Client {
 		BaseUrl: baseurl,
 		Port:    port,
 		User:    user,
-		Timeout: 20 * time.Second,
+		Timeout: 60 * time.Second,
 	}
 	return svc
 }
